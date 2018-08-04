@@ -7,11 +7,11 @@
 ?>
 
 <!-- rss -->
-<!--<?php
-	$rssdata = simplexml_load_file("http://2chnavi.net/headline/?rss=1");
+<?php
+	$rssdata = simplexml_load_file("http://newmofu.doorblog.jp/rss/adult.xml");
 
 	// 読み込み件数を決定する
-	$num_of_data = 20;
+	$num_of_data = 3;
 
 	//出力内容の初期化
 	$outdata = "";
@@ -40,7 +40,7 @@
 
 	echo '<div class=rss1>'.'<ul>' . $outdata . '</ul>'.'</div>'; //実行結果を出力する
     
-    ?>-->
+    ?>
 
 <!--画像取得-->
 <!--<?php
@@ -52,10 +52,10 @@
 
 <!--サムネ-->
 <?php
-	$rssdata = simplexml_load_file("http://2chnavi.net/headline/?rss=1");
+	$rssdata = simplexml_load_file("http://newmofu.doorblog.jp/rss/adult.xml");
 
 	// 読み込み件数を決定する
-	$num_of_data = 5;
+	$num_of_data = 3;
 
 	//出力内容の初期化
 	$outdata = "";
@@ -78,17 +78,22 @@
         
         require_once("phpQuery-onefile.php");
         $html = file_get_contents($link);
-        $doc = phpQuery::newDocument($html)->find("td")->find("a:contains(".substr($title,0,-2).")")->attr("href");
-        echo $doc;
+        $doc = phpQuery::newDocument($html)->find(".widget-content")->find(".title_link")->find("a")->attr("href");
         
-        /* .entry_title:eq(0) */
+        /* .entry_title:eq(0)   ("a:contains(".mb_substr($title,0,6 ).")") */
+        /* pickuplink is_adlut title_link*/
         
         $html3 = file_get_contents($doc);
         
         if( parse_url($doc)['host']=="summary.livedoor.biz" ) $html3 = "<html>".$html3;
         
-        $html2 = phpQuery::newDocument($html3)->find("article")->find(".article-body")->find("img:eq(0)")->attr("src");
+        $html2 = phpQuery::newDocument($html3)->find("article")->find("img:eq(0)")->attr("src");
+        echo $html2;
         
+        /*->find(".article-body")*/
+        
+   
+      
         
         $um .= '<li><img class="um" src="'. $html2 .'">'. '<p class="rt">'. $title . '</p>';
       
